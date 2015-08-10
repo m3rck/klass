@@ -1,12 +1,12 @@
-var inherit = require('..');
+var klass = require('..');
 
 exports.testIsFunction = function(test) {
-    test.equal(typeof inherit, 'function');
+    test.equal(typeof klass, 'function');
     test.done();
 };
 
 exports.testInstanceProperties = function(test) {
-    var A = inherit({
+    var A = klass({
         __constructor : function(val) {
             this.prop = val;
         }
@@ -18,8 +18,8 @@ exports.testInstanceProperties = function(test) {
 };
 
 exports.testInstanceOf = function(test) {
-    var A = inherit({}),
-        B = inherit(A, {});
+    var A = klass({}),
+        B = klass(A, {});
 
     test.ok(new A() instanceof A);
     test.ok(!(new A() instanceof B));
@@ -29,8 +29,8 @@ exports.testInstanceOf = function(test) {
 };
 
 exports.testInstanceOfConstructorResult = function(test) {
-    var A = inherit({}),
-        B = inherit({
+    var A = klass({}),
+        B = klass({
             __constructor : function(val) {
                 return new A();
             }
@@ -41,21 +41,21 @@ exports.testInstanceOfConstructorResult = function(test) {
 };
 
 exports.testSelf = function(test) {
-    var A = inherit({}),
-        B = inherit(A, {});
+    var A = klass({}),
+        B = klass(A, {});
 
     test.strictEqual(new A().__self, A);
     test.strictEqual(new B().__self, B);
     test.done();
 };
 
-exports.testInherit = function(test) {
-    var A = inherit({
+exports.testKlass = function(test) {
+    var A = klass({
             method1 : function() {
                 return 'A';
             }
         }),
-        B = inherit(A, {
+        B = klass(A, {
             method2 : function() {
                 return 'B';
             }
@@ -66,22 +66,22 @@ exports.testInherit = function(test) {
     test.done();
 };
 
-exports.testInheritFromPlaneFunction = function(test) {
+exports.testKlassFromPlaneFunction = function(test) {
     var A = function(val) {
             this.prop = val;
         },
-        B = inherit(A, {});
+        B = klass(A, {});
 
     test.ok(new B() instanceof A);
     test.equal(new B('val').prop, 'val');
     test.done();
 };
 
-exports.testInheritAndBaseCallFromPlaneFunction = function(test) {
+exports.testKlassAndBaseCallFromPlaneFunction = function(test) {
     var A = function(val) {
             this.prop = val;
         },
-        B = inherit(A, {
+        B = klass(A, {
             __constructor : function() {
                 this.__base('fromB');
             }
@@ -92,13 +92,13 @@ exports.testInheritAndBaseCallFromPlaneFunction = function(test) {
     test.done();
 };
 
-exports.testStaticInherit = function(test) {
-    var A = inherit({}, {
+exports.testStaticKlass = function(test) {
+    var A = klass({}, {
             method1 : function() {
                 return 'A';
             }
         }),
-        B = inherit(A, {}, {
+        B = klass(A, {}, {
             method2 : function() {
                 return 'B';
             }
@@ -110,12 +110,12 @@ exports.testStaticInherit = function(test) {
 };
 
 exports.testOverride = function(test) {
-    var A = inherit({
+    var A = klass({
             method : function() {
                 return 'A';
             }
         }),
-        B = inherit(A, {
+        B = klass(A, {
             method : function() {
                 return 'B';
             }
@@ -127,12 +127,12 @@ exports.testOverride = function(test) {
 };
 
 exports.testStaticOverride = function(test) {
-    var A = inherit({}, {
+    var A = klass({}, {
             method : function() {
                 return 'A';
             }
         }),
-        B = inherit(A, {}, {
+        B = klass(A, {}, {
             method : function() {
                 return 'B';
             }
@@ -144,12 +144,12 @@ exports.testStaticOverride = function(test) {
 };
 
 exports.testBase = function(test) {
-    var A = inherit({
+    var A = klass({
             method1 : function() {
                 return 'A';
             }
         }),
-        B = inherit(A, {
+        B = klass(A, {
             method1 : function() {
                 return this.__base() + 'B';
             },
@@ -164,12 +164,12 @@ exports.testBase = function(test) {
 };
 
 exports.testStaticBase = function(test) {
-    var A = inherit({}, {
+    var A = klass({}, {
             staticMethod : function() {
                 return 'A';
             }
         }),
-        B = inherit(A, {}, {
+        B = klass(A, {}, {
             staticMethod : function() {
                 return this.__base() + 'B';
             }
@@ -180,26 +180,26 @@ exports.testStaticBase = function(test) {
 };
 
 exports.testObjectMixin = function(test) {
-    var A = inherit(),
+    var A = klass(),
         M = {
             methodM : function() {
                 return 'M';
             }
         },
-        B = inherit([A, M]);
+        B = klass([A, M]);
 
     test.equal(new B().methodM(), 'M');
     test.done();
 };
 
 exports.testFunctionMixin = function(test) {
-    var A = inherit(),
-        M = inherit({
+    var A = klass(),
+        M = klass({
             methodM : function() {
                 return 'M';
             }
         }),
-        B = inherit([A, M]);
+        B = klass([A, M]);
 
     test.equal(new B().methodM(), 'M');
     test.strictEqual(new B().__self, B);
@@ -207,25 +207,25 @@ exports.testFunctionMixin = function(test) {
 };
 
 exports.testFunctionMixinStatic = function(test) {
-    var A = inherit(),
-        M = inherit({}, {
+    var A = klass(),
+        M = klass({}, {
             staticMethodM : function() {
                 return 'M';
             }
         }),
-        B = inherit([A, M]);
+        B = klass([A, M]);
 
     test.equal(B.staticMethodM(), 'M');
     test.done();
 };
 
 exports.testBaseMocking = function(test) {
-     var A = inherit({
+     var A = klass({
             m : function() {
                 return 'A';
             }
         }),
-        B = inherit(A, {
+        B = klass(A, {
             m : function() {
                 return this.__base() + 'B';
             }

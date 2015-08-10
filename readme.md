@@ -1,4 +1,4 @@
-Inherit [![NPM version](https://badge.fury.io/js/inherit.png)](http://badge.fury.io/js/inherit)
+Klass [![NPM version](https://badge.fury.io/js/klass.png)](http://badge.fury.io/js/klass)
 =======
 This module provides some syntax sugar for "class" declarations, constructors, mixins, "super" calls and static members.
 
@@ -7,11 +7,11 @@ Getting Started
 ###In Node.js###
 You can install using Node Package Manager (npm):
 
-    npm install inherit
+    npm install klass
 
 ###In Browsers###
 ```html
-<script type="text/javascript" src="inherit.js"></script>
+<script type="text/javascript" src="klass.js"></script>
 ```
 It also supports RequireJS module format and [YM module](https://github.com/ymaps/modules) format.
 
@@ -21,24 +21,24 @@ Specification
 -------------
 ###Creating a base class###
 ````js
-Function inherit(Object props);
+Function klass(Object props);
 ````
 ###Creating a base class with static properties###
 ````js
-Function inherit(
+Function klass(
     Object props,
     Object staticProps);
 ````
 ###Creating a derived class###
 ````js
-Function inherit(
+Function klass(
     Function BaseClass,
     Object props,
     Object staticProps);
 ````
 ###Creating a derived class with mixins###
 ````js
-Function inherit(
+Function klass(
     [
         Function BaseClass,
         Function Mixin,
@@ -52,10 +52,10 @@ Function inherit(
 Example
 ------------
 ```javascript
-var inherit = require('inherit');
+var klass = require('klass');
 
 // base "class"
-var A = inherit(/** @lends A.prototype */{
+var A = klass(/** @lends A.prototype */{
     __constructor : function(property) { // constructor
         this.property = property;
     },
@@ -79,8 +79,8 @@ var A = inherit(/** @lends A.prototype */{
     }
 });
 
-// inherited "class" from A
-var B = inherit(A, /** @lends B.prototype */{
+// klassed "class" from A
+var B = klass(A, /** @lends B.prototype */{
     getProperty : function() { // overriding
         return this.property + ' of instanceB';
     },
@@ -95,14 +95,14 @@ var B = inherit(A, /** @lends B.prototype */{
 });
 
 // mixin M
-var M = inherit({
+var M = klass({
     getMixedProperty : function() {
         return 'mixed property';
     }
 });
 
-// inherited "class" from A with mixin M
-var C = inherit([A, M], {
+// klassed "class" from A with mixin M
+var C = klass([A, M], {
     getMixedProperty : function() {
         return this.__base() + ' from C';
     }
